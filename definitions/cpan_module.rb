@@ -19,11 +19,13 @@
 
 define :cpan_module, :force => nil do
   execute "install-#{params[:name]}" do
+    cpanm_arg = params[:source] || params[:name]
     if params[:force]
-      command "#{node['perl']['cpanm']['path']} --force #{params[:name]}"
+      command "#{node['perl']['cpanm']['path']} --force #{cpanm_arg}"
     else
-      command "#{node['perl']['cpanm']['path']} #{params[:name]}"
+      command "#{node['perl']['cpanm']['path']} #{cpanm_arg}"
     end
+    
     root_dir = (node[:platform] == "mac_os_x") ? "/var/root" : "/root"
     cwd root_dir
     # Will create working dir on /root/.cpanm (or /var/root)
