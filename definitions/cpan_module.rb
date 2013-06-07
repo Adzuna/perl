@@ -29,6 +29,11 @@ define :cpan_module, :force => nil do
     # Will create working dir on /root/.cpanm (or /var/root)
     environment "HOME" => root_dir
     path [ "/usr/local/bin", "/usr/bin", "/bin" ]
-    not_if "perl -m#{params[:name]} -e ''"
+    # TODO: extract version from source, when present.
+    if params[:minimum_version]
+      not_if "perl -M#{params[:name]}\ #{params[:minimum_version]} -e ''"
+    else
+      not_if "perl -m#{params[:name]} -e ''"
+    end
   end
 end
