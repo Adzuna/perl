@@ -31,7 +31,7 @@ define :cpan_module, :force => nil do
     path [ "/usr/local/bin", "/usr/bin", "/bin" ]
     # TODO: extract version from source, when present.
     if params[:minimum_version]
-      not_if "perl -M#{params[:name]}\ #{params[:minimum_version]} -e ''"
+      not_if "perl -M#{params[:name]}\\ #{params[:minimum_version]} -e ''"
     else
       not_if "perl -m#{params[:name]} -e ''"
     end
